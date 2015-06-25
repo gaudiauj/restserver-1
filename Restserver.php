@@ -755,9 +755,12 @@ class Restserver {
     private function _set_log(stdClass $log_model) {
         switch ($this->config['log_driver']) {
             case 'db':
-                // Connection à la base de donnée
+                // Charge les drivers
                 $this->CI->db_{$this->config['log_db_name']} = $this->CI->load->database($this->config['log_db_name'], TRUE);
                 
+                // Connection à la base de donnée
+                $this->CI->db_{$this->config['log_db_name']}->initialize();
+
                 // Insertion des données
                 $this->CI->db_{$this->config['log_db_name']}->insert($this->config['log_db_table'], $log_model);
                 break;
