@@ -411,7 +411,7 @@ class Restserver {
         
         // Envoi les entetes
         if (ENVIRONMENT === 'development') {
-            $this->CI->output->set_header("X-RestServer: v$this->version");
+            header("X-RestServer: v$this->version");
         }
         
         // Encode le data
@@ -501,26 +501,26 @@ class Restserver {
      */
     private function _cross_domain() {
         // Autorisation des méthode
-        $this->CI->output->set_header('Access-Control-Allow-Methods: '.implode(',', $this->config['allow_methods']));
+        header('Access-Control-Allow-Methods: '.implode(',', $this->config['allow_methods']));
         
         // Autorisation des en-têtes
-        $this->CI->output->set_header('Access-Control-Allow-Headers: '.implode(',', $this->config['allow_headers']));
+        header('Access-Control-Allow-Headers: '.implode(',', $this->config['allow_headers']));
         
         // Autorisation credential
         if ($this->config['allow_credentials'] && $this->config['allow_credentials'])
-            $this->CI->output->set_header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Allow-Credentials: true');
         
         // Autorise tout le monde
         if ($this->config['allow_origin'] === FALSE) {
-            $this->CI->output->set_header('Access-Control-Allow-Origin: '.(( ! empty($this->headers['Origin'])) ? $this->headers['Origin'] : $this->ip));
+            header('Access-Control-Allow-Origin: '.(( ! empty($this->headers['Origin'])) ? $this->headers['Origin'] : $this->ip));
             
         // Autorise une liste
         } else if (is_array($this->config['allow_origin']) && in_array($this->ip, $this->config['allow_origin'])) {
-            $this->CI->output->set_header('Access-Control-Allow-Origin: '.$this->ip);
+            header('Access-Control-Allow-Origin: '.$this->ip);
             
         // Autrement seulement un host
         } else if (!empty($this->config['allow_origin'])) {
-            $this->CI->output->set_header('Access-Control-Allow-Origin: '.$this->config['allow_origin']);
+            header('Access-Control-Allow-Origin: '.$this->config['allow_origin']);
         }
     }
     
